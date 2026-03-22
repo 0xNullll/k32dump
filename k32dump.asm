@@ -780,7 +780,7 @@ dump_header:
 format_bytes:
     push ebp
     mov ebp, esp
-    sub esp, 8
+    sub esp, 12
 
     push edi
     push esi
@@ -1038,11 +1038,15 @@ dump_file:
     test ecx, ecx
     jz .done
 
+    mov [ebp-140], ecx          ; save
+
     ; format offset
     push dword [ebp-148]
     push edi
     call format_offset
     add edi, eax
+
+    mov ecx, [ebp-140]          ; restore
 
     ; format bytes
     push dword [ebp-132]
